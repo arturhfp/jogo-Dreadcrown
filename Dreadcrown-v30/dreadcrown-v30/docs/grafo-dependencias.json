@@ -1,0 +1,88 @@
+{
+ "3d/texturas.js": [
+  "core/util.js"
+ ],
+ "3d/glb.js": [
+  "3d/primitivas.js",
+  "core/util.js"
+ ],
+ "3d/primitivas.js": [
+  "core/util.js"
+ ],
+ "3d/atores.js": [
+  "3d/animacao.js",
+  "3d/kit.js",
+  "3d/texturas.js",
+  "core/util.js"
+ ],
+ "3d/kit.js": [
+  "3d/primitivas.js",
+  "3d/texturas.js",
+  "core/util.js"
+ ],
+ "3d/tecido.js": [
+  "3d/kit.js",
+  "core/util.js"
+ ],
+ "3d/ik.js": [
+  "core/util.js"
+ ],
+ "3d/arco.js": [
+  "3d/ik.js",
+  "3d/kit.js",
+  "3d/primitivas.js",
+  "core/util.js",
+  "data/catalogo.js"
+ ],
+ "3d/equipamento.js": [
+  "3d/arco.js",
+  "3d/atores.js",
+  "3d/kit.js",
+  "3d/personagens.js",
+  "3d/primitivas.js",
+  "3d/tecido.js",
+  "core/util.js"
+ ],
+ "3d/posprocessamento.js": [
+  "core/util.js"
+ ],
+ "3d/palco.js": [
+  "3d/efeitos.js",
+  "3d/glb.js",
+  "3d/kit.js",
+  "3d/posprocessamento.js",
+  "core/util.js"
+ ],
+ "3d/efeitos.js": [
+  "3d/kit.js",
+  "3d/primitivas.js",
+  "3d/texturas.js",
+  "core/util.js"
+ ],
+ "3d/personagens.js": [
+  "3d/atores.js",
+  "3d/kit.js",
+  "3d/primitivas.js",
+  "core/util.js",
+  "data/catalogo.js"
+ ],
+ "3d/combate3d.js": [
+  "3d/atores.js",
+  "3d/efeitos.js",
+  "3d/glb.js",
+  "3d/personagens.js",
+  "core/util.js",
+  "data/catalogo.js"
+ ],
+ "ui/ponte.js": [
+  "3d/animacao.js",
+  "3d/atores.js",
+  "3d/combate3d.js",
+  "3d/efeitos.js",
+  "3d/glb.js",
+  "3d/palco.js",
+  "3d/personagens.js",
+  "core/util.js",
+  "data/catalogo.js"
+ ]
+}

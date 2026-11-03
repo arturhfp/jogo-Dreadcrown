@@ -1,0 +1,6 @@
+html.gl3d .mobile-3d-stage .m3d-actor{opacity:0!important;pointer-events:none!important;animation:none!important}
+html.gl3d .mobile-3d-stage .m3d-ground,html.gl3d .arena-fallback,html.gl3d .fx-layer{display:none!important}
+.mobile-3d-stage{position:relative}
+.gl3d-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;display:block}
+.creator-arena .mobile-3d-stage{touch-action:pan-y;cursor:grab}
+.gl3d-hint{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:5;font:600 11px/1 system-ui,sans-serif;letter-spacing:.04em;color:#cfe3f5;background:rgba(5,10,18,.55);border:1px solid rgba(160,200,240,.25);padding:6px 10px;border-radius:99px;pointer-events:none;white-space:nowrap}

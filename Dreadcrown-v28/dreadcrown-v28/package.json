@@ -1,0 +1,18 @@
+{
+  "name": "dreadcrown",
+  "version": "28.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Dreadcrown — RPG de batalha em 3D (camada 3D e interface modularizadas)",
+  "scripts": {
+    "dev": "node tools/servir.mjs",
+    "build": "node tools/build.mjs",
+    "test": "npm run test:regras && npm run test:navegador",
+    "test:navegador": "node tests/jogo.mjs && node tests/regressao-v27.mjs && node tests/mundo-v28.mjs && node tests/navegador.mjs",
+    "test:regras": "node tests/unitarios.mjs && node tests/regras.mjs && node tests/combate.mjs && node tests/classes.mjs && node tests/mundo.mjs && node tests/dungeon.mjs && node tests/loja.mjs && node tests/efeitos.mjs && node tests/audio.mjs && node tests/estabilidade.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "playwright": "^1.48.0"
+  }
+}

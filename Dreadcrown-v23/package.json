@@ -1,0 +1,16 @@
+{
+  "name": "dreadcrown",
+  "version": "23.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Dreadcrown — RPG de batalha em 3D (camada 3D e interface modularizadas)",
+  "scripts": {
+    "dev": "node tools/servir.mjs",
+    "build": "node tools/build.mjs",
+    "test": "node tests/unitarios.mjs && node tests/navegador.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "playwright": "^1.48.0"
+  }
+}

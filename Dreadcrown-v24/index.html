@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--
+  Dreadcrown — ponto de entrada (modo desenvolvimento).
+  Abra por um servidor local (npm run dev); para gerar o arquivo único, use npm run build (dist/).
+  A ORDEM das tags importa: os scripts de interface observam o DOM criado pelo jogo.
+  Versão com o jogo minificado original (React): index-legado.html.
+  Modelo 3D "Orc Berserk Warrior (low poly)" por mezuna, CC-BY-4.0 (assets/modelos/orc.glb).
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+<title>Dreadcrown</title>
+<meta name="description" content="Dreadcrown — RPG de batalha em 3D."/>
+<meta name="robots" content="index, follow"/>
+<link rel="icon" href="data:,">
+
+<!-- Runtime do three.js (window.__THREE), extraído do bundle original. As regras, dados e interface agora são código-fonte próprio (src/rules, src/data, src/ui/jogo). -->
+<script type="module" src="src/vendor/three-runtime.js"></script>
+
+<!-- Estilos: primeiro o do jogo, depois os ajustes, na ordem em que sobrescrevem uns aos outros -->
+<link rel="stylesheet" href="src/styles/jogo-base.css">
+<link rel="stylesheet" href="src/styles/animacoes-v17.css">
+<link rel="stylesheet" href="src/styles/ajuste-anonimo.css">
+<link rel="stylesheet" href="src/styles/correcao-visual-v18-4.css">
+<link rel="stylesheet" href="src/styles/equipamento-combate-v18-5.css">
+<link rel="stylesheet" href="src/styles/visuais-raciais-v18-5.css">
+<link rel="stylesheet" href="src/styles/corte-v18-9.css">
+<link rel="stylesheet" href="src/styles/rotulos-habilidades-v18-9.css">
+<link rel="stylesheet" href="src/styles/retratos.css">
+<link rel="stylesheet" href="src/styles/cenario.css">
+</head>
+<body>
+<div id="root"></div>
+
+<!-- Camada de interface por cima do jogo -->
+<script src="src/ui/visuais-mobile.js"></script>
+<script src="src/ui/avanco-automatico.js"></script>
+<link rel="stylesheet" href="src/styles/ajustes-v18-6.css">
+<script src="src/ui/retratos-dados.js"></script>
+<script src="src/ui/retratos.js"></script>
+<script src="src/ui/cenario.js"></script>
+
+<!-- Motor 3D -->
+<link rel="stylesheet" href="src/styles/palco3d.css">
+<!--ORC-GLB-->
+<script type="module" src="src/main-jogo.js"></script>
+
+<link rel="stylesheet" href="src/styles/visual-v15.css">
+<script src="src/ui/classe-v17.js"></script>
+</body>
+</html>

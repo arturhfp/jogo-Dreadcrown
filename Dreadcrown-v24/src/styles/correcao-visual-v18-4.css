@@ -1,0 +1,13 @@
+.m3d-actor{will-change:transform;transform-origin:bottom center}
+.m3d-hero{animation:m3dHeroIdle 2.8s ease-in-out infinite!important}
+.m3d-enemy{animation:m3dEnemyIdle 2.35s ease-in-out infinite!important}
+.m3d-aura{position:absolute;left:50%;bottom:5px;width:115px;height:115px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,transparent 30%,rgba(104,210,255,.16) 45%,transparent 70%);animation:m3dAura 1.8s ease-in-out infinite;pointer-events:none}
+.m3d-enemy .m3d-aura{background:radial-gradient(circle,transparent 30%,rgba(255,65,85,.22) 45%,transparent 70%);animation-delay:-.6s}
+.m3d-enemy .m3d-eye{animation:m3dEye 1.2s ease-in-out infinite alternate}
+.m3d-weapon{animation:m3dWeapon 1.6s ease-in-out infinite}
+@keyframes m3dHeroIdle{0%,100%{transform:translateY(0) rotateY(-8deg) rotateZ(0)}35%{transform:translateY(-5px) rotateY(7deg) rotateZ(-1deg)}70%{transform:translateY(-2px) rotateY(2deg) rotateZ(1deg)}}
+@keyframes m3dEnemyIdle{0%,100%{transform:translateY(0) rotateY(8deg) rotateZ(0)}40%{transform:translateY(-8px) rotateY(-9deg) rotateZ(1.5deg)}75%{transform:translateY(-3px) rotateY(4deg) rotateZ(-1deg)}}
+@keyframes m3dAura{50%{opacity:.42;transform:translateX(-50%) scale(1.22)}}
+@keyframes m3dEye{to{filter:brightness(1.8);box-shadow:0 0 18px #ff534f}}
+@keyframes m3dWeapon{50%{filter:brightness(1.45);transform:rotate(-24deg) translateY(-3px)}}
+@media(max-width:820px){.m3d-actor{animation-duration:2.8s!important}.m3d-hero{left:9%}.m3d-enemy{right:7%}.m3d-name{font-size:9px;max-width:130px;overflow:hidden;text-overflow:ellipsis}.m3d-hp{top:-10px}}

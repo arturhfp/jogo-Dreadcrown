@@ -1,0 +1,8 @@
+@keyframes v17Float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-4px) rotate(1deg)}}
+@keyframes v17Glow{0%,100%{opacity:.35;filter:brightness(1)}50%{opacity:.8;filter:brightness(1.35)}}
+.v17 .arena-canvas{background:radial-gradient(circle at 50% 48%,rgba(74,111,143,.16),transparent 48%),linear-gradient(180deg,#08111d,#03070c)!important}
+.v17 .arena-canvas canvas{animation:v17Float 4.5s ease-in-out infinite}
+.v17 .enemy-v15-badge{animation:v17Glow 2.6s ease-in-out infinite}
+.v17 .choice-card.selected,.v17 .skill-pick.selected{position:relative;overflow:hidden}
+.v17 .choice-card.selected:after,.v17 .skill-pick.selected:after{content:"";position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.12) 50%,transparent 58%);transform:translateX(-70%);animation:v17Sweep 3.8s ease-in-out infinite;pointer-events:none}
+@keyframes v17Sweep{0%,45%{transform:translateX(-70%)}65%,100%{transform:translateX(70%)}}

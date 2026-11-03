@@ -1,0 +1,77 @@
+# Registro da migração
+
+## O que foi feito
+
+1. **Backup:** o jogo original (v22/v23, HTML único) permanece intacto e nada foi sobrescrito; o projeto novo é uma pasta separada.
+2. **Análise:** mapeamento das camadas, funcionalidades, riscos e problemas (ver `ARQUITETURA.md`).
+3. **Motor 3D** (um arquivo único de 1.860 linhas dentro de uma função anônima) → **18 módulos ES** por responsabilidade.
+   A divisão foi feita por ferramenta (análise sintática com *acorn*), que calculou imports/exports automaticamente e comprovou **ausência de ciclos**.
+   O código das funções **não foi reescrito**: foi movido e ganhou cabeçalho documentando responsabilidade, relações, API pública e regras.
+4. **Interface injetada** (5 scripts) e **CSS** (13 blocos) → arquivos próprios; **recursos** embutidos em base64 (modelo GLB, 160 retratos) → arquivos reais em `assets/`.
+5. **Ponto de entrada** `index.html` simples; **build** que regenera o HTML único; servidor de desenvolvimento.
+6. **Testes:** 12 unitários (dados/animações) e verificações de integração no Chromium (ver abaixo).
+7. **Correções encontradas pelos testes durante a migração:** import ausente do passo de tempo do tecido; registro de `dress` removido pelo *tree-shaking*.
+
+## O que NÃO foi feito (pendente)
+
+- **Núcleo do jogo** (`src/vendor/game-bundle.js`): sem fonte atual, portanto **não modularizado**. Sistemas ainda dentro dele:
+  combate/dano, habilidades e raridades, inventário/equipamentos/poções/loja, progressão, criação de personagem, telas e navegação.
+- Salvamento/carregamento (não existe no jogo atual).
+- Comparação de comportamento ponto a ponto com a v23 além dos testes automáticos e das capturas de tela do arqueiro.
+- Testes das regras de combate/inventário (dependem do fonte).
+
+## Como continuar quando o fonte atual estiver disponível
+
+1. Colocar o projeto Replit mais recente (o que gerou a v18.9) numa pasta `jogo/` e confirmar que ele compila para um bundle equivalente
+   (comparar os textos em português, como feito aqui; devem coincidir).
+2. Separar em `jogo/src/{data,characters,combat,inventory,progression,ui}` conforme o plano do pedido original, mantendo `game-data.ts` como fonte única dos dados.
+3. Gerar o bundle novo, substituir `src/vendor/game-bundle.js` e rodar `npm test`.
+4. Se o fonte do Replit servir de base: o repositório enviado já tem `App.tsx` (573 linhas), `game-data.ts` e `character-model.tsx`, mas
+   **faltam** as habilidades/armas/regras do jogo atual — não use-o como substituto.
+
+## Troca do nome do jogo: "Crônicas do Abismo" → "Dreadcrown"
+
+**Alterado** (nome do jogo): título da página (`<title>`, `document.title` dentro do bundle), marca no topo da tela (`.brand-title`),
+metadados, `package.json`, README, comentários de cabeçalho, nome do arquivo gerado (`dist/Dreadcrown.html`) e nomes nos testes.
+
+**Preservado de propósito:**
+- classe CSS `.abismo-app` (e `abismo-app` no bundle): é um **identificador** usado pelo CSS do jogo; renomear exige mexer no bundle minificado e no CSS ao mesmo tempo, sem ganho para o jogador;
+- termos do **mundo do jogo** que contêm "Abismo" e não são o nome do jogo: botão "Entrar no Abismo", "Loja do Abismo" e centenas de nomes de habilidades ("Coroa do Abismo", "Titã do Abismo"…). Não foram trocados porque fazem parte do conteúdo/lore;
+  se você quiser que o "Abismo" do mundo também mude (ex.: "Entrar na Dreadcrown"), isso é decisão de conteúdo e precisa da sua aprovação;
+- chaves de dados com nomes de subclasses/habilidades (usadas como identificadores internos).
+
+**Verificação:** varredura de todo o projeto (exceto imagens/GLB): 0 ocorrências de "Crônicas"/"Cronicas"; teste de inicialização do `dist/Dreadcrown.html`
+(título "Dreadcrown 3D — Arena v18.8", marca "DREADCROWN", sem erros no console). Não existe dado de salvamento, então não há compatibilidade de save a preservar.
+
+## Etapa 1 — dados, regras e save (concluída)
+
+- `src/data/jogo/*.js`: raças, classes, ramificações, armas, armaduras, inimigos, conjuntos e 600 listas de nomes oficiais de habilidades, extraídos do bundle (fonte da verdade, editável). Extrator histórico em `tools/migracao/`.
+- `src/data/glossario.js`: renomeação do mundo ("Abismo" → "Dreadcrown"), regras editáveis; "Abissal" preservado.
+- `src/rules/habilidades.js` e `src/rules/equipamentos.js`: portes fiéis do bundle, sem DOM/React/three.js.
+- `src/state/save.js`: save versionado em localStorage com migração; falha silenciosa se o armazenamento estiver bloqueado.
+- `tests/regras.mjs` (`npm run test:regras`): 8 testes; as 600 habilidades e os 684 equipamentos são comparados com o código original executado numa VM.
+- **Bug do original corrigido:** os bônus de conjunto de armadura nunca ativavam (ids comparados não batiam com `setId`). Agora ativam com 3 peças.
+- O bundle React continua sendo a interface até as próximas etapas; nada foi removido.
+
+## Etapa 5 — identidade de classe (concluída)
+
+- `src/data/jogo/classes-kit.js`: passiva de cada classe (Bastião, Fluxo Arcano, Juramento Radiante, Graça Sagrada, Golpe Fatal, Olho de Águia), só números/textos, editável.
+- `src/rules/classes.js`: lógica pura (crítico, penetração de armadura, escudo, regeneração, marca) ligada ao motor em `rules/combate.js`. Classes sem crítico não consomem sorteio, então o comportamento antigo delas não mudou.
+- Passiva exibida na aba Arsenal. `tests/classes.mjs`: 12 testes.
+- Ainda NÃO feito: efeitos de habilidade específicos por classe além do tema da ramificação; equilíbrio numérico (valores são ponto de partida, sem playtest).
+
+## Etapa 6 — mundo aberto híbrido (mistura das 4 opções)
+
+O que existe e o que cada opção virou:
+
+| Opção | Como foi combinada |
+|---|---|
+| 1. Mapa jogável | Exploração em 3ª pessoa (WASD/Shift furtivo/Espaço ataca/E interage; câmera arrastável; toque com joystick). Inimigos visíveis, com patrulha, alerta (!) e perseguição. Ao contato abre a batalha por turnos atual e, ao vencer, volta ao mapa. |
+| 2. Regiões + mapa-múndi | 6 regiões (`src/data/jogo/mundo.js`): Vale Quebrado, Terras Mortas, Cavernas Profundas, Picos Ventosos, Fortaleza Rubra, Fenda Infernal (chefe). Portais liberados por vitórias; mapa-múndi (M) com viagem rápida a partir de acampamentos. Cada região tem terreno, cor, névoa e inimigos próprios. |
+| 3. Mundo contínuo | PARCIAL: cada região é um terreno contínuo gerado por semente (~130–150 m de lado), mas a troca entre regiões é por portal, sem streaming de pedaços. Um mundo único e enorme exigiria carregamento por chunks e conteúdo muito maior. |
+| 4. Tempo real | HÍBRIDO: no mapa o ataque é em tempo real (emboscada por trás dá vantagem; ser avistado dá a iniciativa ao inimigo) e a batalha tem esquiva ativa (ESPAÇO no instante certo). O dano em si continua por turnos. |
+
+- Regras puras e testadas: `src/rules/mundo.js` (terreno, IA, percepção, iniciativa) e `tests/mundo.mjs`.
+- Cena 3D: `src/world/` (terreno com adereços instanciados, câmera, herói e inimigos). UI: `src/ui/jogo/mundo.js` e `src/styles/mundo.css`.
+- Bug corrigido nesta rodada: a tela do mundo não tinha CSS (área 3D com 2 px de altura, HUD escondido). Há teste de regressão no navegador.
+- Desempenho: ~64 chamadas de desenho e ~120 mil triângulos no mundo (bom para GPU modesta). NÃO medido em GPU real; no renderizador por software deste ambiente roda a ~1 quadro/s, o que não representa um PC.

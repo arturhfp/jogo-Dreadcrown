@@ -1,0 +1,52 @@
+.arena-canvas{display:none!important}
+.mobile-3d-stage{display:block!important}
+.fallback-hero,.fallback-enemy{display:none!important}
+/* herói: sprite 2D */
+.m3d-hero[data-portrait]{width:auto!important;height:auto!important;transform:none!important;animation:none!important;filter:none!important;left:5%!important;bottom:9%!important}
+.m3d-hero[data-portrait].m3d-attacking{animation:none!important}
+.m3d-hero[data-portrait] .m3d-head,.m3d-hero[data-portrait] .m3d-helm,.m3d-hero[data-portrait] .m3d-body,.m3d-hero[data-portrait] .m3d-arm,.m3d-hero[data-portrait] .m3d-leg,.m3d-hero[data-portrait] .m3d-weapon,.m3d-hero[data-portrait] .m3d-aura{display:none!important}
+.m3d-hero[data-portrait] .m3d-name{top:-24px}
+.spr{position:relative;isolation:isolate;transform-origin:50% 100%;animation:sprBreath 3.4s ease-in-out infinite,sprSway 5.6s ease-in-out infinite;will-change:transform;filter:drop-shadow(0 8px 14px rgba(0,0,0,.65))}
+.m3d-hero[data-kind="sub"] .spr{transform-origin:50% 60%}
+.spr-art{position:relative;-webkit-mask-image:radial-gradient(ellipse 80% 76% at 50% 48%,#000 56%,transparent 100%);mask-image:radial-gradient(ellipse 80% 76% at 50% 48%,#000 56%,transparent 100%);overflow:hidden}
+img.m3d-portrait{display:block;height:clamp(190px,42vw,300px);width:auto;max-width:56vw;object-fit:contain;user-select:none;-webkit-user-drag:none;border:0;box-shadow:none}
+.spr-shine{position:absolute;inset:0;background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.24) 50%,transparent 58%);background-size:260% 100%;mix-blend-mode:screen;animation:sprShine 6.5s linear infinite}
+.spr-glow{position:absolute;inset:-12% -22%;z-index:-1;background:radial-gradient(closest-side,color-mix(in srgb,var(--c,#78a9d4) 58%,transparent),transparent 72%);mix-blend-mode:screen;animation:sprGlow 2.8s ease-in-out infinite;transition:transform .3s,opacity .3s}
+.spr-ring{position:absolute;left:50%;bottom:-12px;width:135%;height:26%;transform:translateX(-50%);border-radius:50%;border:1.5px solid color-mix(in srgb,var(--c,#78a9d4) 75%,transparent);box-shadow:0 0 14px var(--c,#78a9d4),inset 0 0 12px color-mix(in srgb,var(--c,#78a9d4) 45%,transparent);animation:sprRing 3s ease-in-out infinite;pointer-events:none}
+.spr-shadow{position:absolute;left:50%;bottom:-10px;width:92%;height:16px;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(0,0,0,.65),transparent 70%);animation:sprShadow 3.4s ease-in-out infinite;pointer-events:none}
+.spr-parts{position:absolute;inset:0;pointer-events:none;z-index:3}
+.spr-parts i{position:absolute;bottom:4%;left:var(--x);width:var(--s);height:var(--s);border-radius:50%;background:var(--c,#78a9d4);box-shadow:0 0 7px var(--c,#78a9d4);opacity:0;animation:sprRise var(--d) var(--dl) linear infinite}
+@keyframes sprBreath{0%,100%{transform:translateY(0) scale(1,1)}50%{transform:translateY(-3px) scale(1.012,1.026)}}
+@keyframes sprSway{0%,100%{rotate:-.7deg}50%{rotate:.7deg}}
+@keyframes sprShine{0%{background-position:160% 0}60%,100%{background-position:-60% 0}}
+@keyframes sprGlow{0%,100%{opacity:.5;transform:scale(.96)}50%{opacity:.9;transform:scale(1.06)}}
+@keyframes sprRing{0%,100%{opacity:.55;transform:translateX(-50%) scale(.96)}50%{opacity:1;transform:translateX(-50%) scale(1.04)}}
+@keyframes sprShadow{0%,100%{opacity:.9;transform:translateX(-50%) scaleX(1)}50%{opacity:.7;transform:translateX(-50%) scaleX(.94)}}
+@keyframes sprRise{0%{transform:translate(0,0);opacity:0}15%{opacity:.95}100%{transform:translate(10px,-190px);opacity:0}}
+/* ações */
+.m3d-hero.fx-attack .spr{animation:sprAttack .62s cubic-bezier(.3,0,.2,1) both!important}
+.m3d-hero.fx-cast .spr{animation:sprCast .8s ease-out both!important}
+.m3d-hero.fx-cast .spr-glow{opacity:1;transform:scale(1.7)}
+.m3d-hero.fx-hit .spr{animation:sprHit .5s ease-out both!important}
+.m3d-hero.fx-dodge .spr{animation:sprDodge .6s ease-in-out both!important}
+@keyframes sprAttack{0%{transform:translateX(0) scale(1)}25%{transform:translateX(-14px) scale(.97,1.02)}52%{transform:translateX(var(--dx,80px)) scale(1.08)}100%{transform:translateX(0) scale(1)}}
+@keyframes sprCast{0%{transform:translateY(0) scale(1);filter:drop-shadow(0 8px 14px rgba(0,0,0,.65))}35%{transform:translateY(-14px) scale(1.05);filter:brightness(1.6) drop-shadow(0 0 22px var(--c))}100%{transform:translateY(0) scale(1);filter:drop-shadow(0 8px 14px rgba(0,0,0,.65))}}
+@keyframes sprHit{0%{transform:translateX(0);filter:brightness(2.4) saturate(2) hue-rotate(-30deg)}20%{transform:translateX(-16px) rotate(-2deg);filter:brightness(1.8) sepia(1) saturate(5) hue-rotate(-40deg)}45%{transform:translateX(7px)}70%{transform:translateX(-4px)}100%{transform:translateX(0);filter:drop-shadow(0 8px 14px rgba(0,0,0,.65))}}
+@keyframes sprDodge{0%{transform:translateX(0);opacity:1}35%{transform:translateX(-46px) skewX(8deg);opacity:.45}70%{transform:translateX(-46px);opacity:.55}100%{transform:translateX(0);opacity:1}}
+/* inimigo: idle 2D + reações */
+.m3d-actor.m3d-enemy{transform:none;scale:var(--es,.7);transform-origin:50% 100%;animation:enemyIdle2d 2.4s ease-in-out infinite!important}
+.m3d-enemy.fx-hit{animation:enemyHit .46s ease-out both!important}
+.m3d-enemy.fx-lunge{animation:enemyLunge .52s cubic-bezier(.3,0,.2,1) both!important}
+@keyframes enemyIdle2d{0%,100%{transform:translateY(0) scale(1,1)}50%{transform:translateY(-6px) scale(1.015,1.03)}}
+@keyframes enemyHit{0%{transform:translateX(0);filter:brightness(2.6) saturate(.3)}25%{transform:translateX(14px) rotate(3deg);filter:brightness(1.8)}55%{transform:translateX(-6px)}100%{transform:translateX(0);filter:none}}
+@keyframes enemyLunge{0%{transform:translateX(0)}30%{transform:translateX(18px)}55%{transform:translateX(-70px) scale(1.08)}100%{transform:translateX(0)}}
+/* efeitos */
+.fx-layer{position:absolute;inset:0;pointer-events:none;z-index:9;overflow:hidden}
+.fx-burst{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.95),color-mix(in srgb,var(--c) 85%,transparent) 34%,transparent 70%);mix-blend-mode:screen}
+.fx-slash{position:absolute;width:130px;height:9px;border-radius:9px;background:linear-gradient(90deg,transparent,#fff,var(--c),transparent);box-shadow:0 0 14px var(--c)}
+.fx-orb{position:absolute;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle,#fff,var(--c) 45%,transparent 72%);box-shadow:0 0 20px var(--c)}
+.m3d-hero[data-kind="sub"] img.m3d-portrait{height:auto;aspect-ratio:var(--ar);width:min(52vw,250px);max-width:none;object-fit:cover}
+.choice-card.branch[data-th]:not([data-th=""]){background-image:linear-gradient(90deg,rgba(7,11,17,.94) 42%,rgba(7,11,17,.2)),var(--thumb)!important;background-size:cover!important;background-position:center!important}
+@media(min-width:821px){img.m3d-portrait{height:clamp(240px,34vh,340px)}.m3d-actor.m3d-enemy{--es:1.15}.m3d-hero[data-portrait]{left:12%!important}.m3d-hero[data-kind="sub"] img.m3d-portrait{width:clamp(250px,26vw,360px)}}
+@media(max-width:820px){.m3d-actor.m3d-enemy{right:4%!important;--es:.7}.m3d-hero[data-portrait]{left:3%!important}img.m3d-portrait{height:min(54vw,235px);max-width:54vw}}
+@media(prefers-reduced-motion:reduce){.spr,.spr-glow,.spr-ring,.spr-shine,.spr-parts i,.m3d-actor.m3d-enemy{animation:none!important}}
